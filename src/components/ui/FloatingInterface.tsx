@@ -35,10 +35,10 @@ const sectionInfo = [
   },
   {
     id: 'ai',
-    title: 'Shyoski AI',
+    title: 'Shyoski INTAI',
     badge: 'Career Intelligence',
     description: 'Interactive neural network career path guides. Train through AI simulated voice interviews, receive instant feedback metrics, and master your career direction.',
-    link: 'https://ai.shyoski.com',
+    link: '/ShyoskiAI',
     gradient: 'from-emerald-500 to-teal-600',
     icon: <BrainCircuit className="w-6 h-6 text-emerald-500" />
   },
@@ -71,7 +71,7 @@ export function FloatingInterface({ activeSection, scrollProgress, onNavigate }:
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
             <button onClick={() => onNavigate(1)} className={`hover:text-gray-900 transition-colors ${activeSection === 1 ? 'text-blue-600 font-semibold' : ''}`}>Internships</button>
             <button onClick={() => onNavigate(2)} className={`hover:text-gray-900 transition-colors ${activeSection === 2 ? 'text-cyan-600 font-semibold' : ''}`}>ShyoskiTalk</button>
-            <button onClick={() => onNavigate(3)} className={`hover:text-gray-900 transition-colors ${activeSection === 3 ? 'text-emerald-600 font-semibold' : ''}`}>Shyoski AI</button>
+            <button onClick={() => onNavigate(3)} className={`hover:text-gray-900 transition-colors ${activeSection === 3 ? 'text-emerald-600 font-semibold' : ''}`}>Shyoski INTAI</button>
             <button onClick={() => onNavigate(4)} className={`hover:text-gray-900 transition-colors ${activeSection === 4 ? 'text-purple-600 font-semibold' : ''}`}>Innovations</button>
           </nav>
 
