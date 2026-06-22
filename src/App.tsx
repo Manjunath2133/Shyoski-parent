@@ -103,7 +103,7 @@ export default function App() {
   }, [])
 
   // If route matches the talk page, render it full-screen
-  if (route === '/Shyoski/Talk') {
+  if (route === '/ShyoskiTalk') {
     return <ShyoskiTalk />
   }
 
