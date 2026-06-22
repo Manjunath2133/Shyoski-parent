@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shyoski | Pilot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="glass-container">
+        <header class="header">
+            <div class="logo-container" style="display: flex; align-items: center; gap: 8px;">
+                <img src="assets/logo.png" alt="Shyoski" style="height: 20px; width: auto; object-fit: contain; -webkit-app-region: no-drag;">
+                <span class="logo">Shyoski</span>
+            </div>
+            <div class="status-indicators" style="display: flex; gap: 15px; font-size: 0.7rem; font-weight: 600; color: var(--text-secondary);">
+                <div id="status-audio" style="display: flex; align-items: center; gap: 5px;">
+                    <span class="live-indicator"></span> AUDIO ACTIVE
+                </div>
+                <div id="status-stealth" style="display: flex; align-items: center; gap: 5px; color: var(--success);">
+                    ● STEALTH ENABLED
+                </div>
+            </div>
+            <div class="controls">
+            <button id="toggle-transcription" class="btn btn-primary">
+                <span class="icon">🟢</span> <span id="toggle-text">Listening</span>
+            </button>
+            <button id="clear-transcript" class="btn btn-secondary">Clear</button>
+            <button id="btn-mode" class="btn btn-mode">Mode: Interview</button>
+            <button id="btn-ghost" class="btn btn-ghost">Ghost Mode: OFF</button>
+            <button id="btn-billing" class="btn btn-billing">💰 Account</button>
+            <div class="control-btn btn-min" id="min-btn"></div>
+            <div class="control-btn btn-close" id="close-btn"></div>
+        </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Transcription Section -->
+            <section class="transcript-panel">
+                <div class="panel-header">
+                    <span>Live Transcript</span>
+                    <span style="font-size: 0.7rem; color: var(--accent-purple);">Alt+Shift+G for Ghost</span>
+                </div>
+                <div class="transcript-scroll" id="transcript-container">
+                    <div class="transcript-text">Waiting for audio stream...</div>
+                </div>
+            </section>
+
+            <!-- AI Solution Section -->
+            <section class="ai-panel">
+                <div class="panel-header">
+                    <span>AI Pilot Solutions</span>
+                    <span id="thinking-indicator" style="display: none; color: var(--accent-blue);">Thinking...</span>
+                </div>
+                <div class="solutions-scroll" id="solutions-container">
+                    <!-- Initial State -->
+                    <div class="solution-card">
+                        <div class="solution-title">Welcome, Pilot.</div>
+                        <div class="solution-content">
+                            Connect your audio to start receiving real-time insights. Use the floating button below to add your Resume and Job Description for tailored answers.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Context Modal -->
+        <div class="context-modal" id="context-modal">
+            <h2 style="margin-bottom: 20px; font-size: 1.2rem;">Interview Context</h2>
+            <label>Paste Resume / Background</label>
+            <textarea id="resume-input" rows="8" placeholder="Enter your key skills, experience, and achievements..."></textarea>
+            
+            <label>Paste Job Description</label>
+            <textarea id="jd-input" rows="8" placeholder="Enter the job responsibilities and requirements..."></textarea>
+            
+            <button id="save-context" style="background: var(--accent-blue); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: auto;">Save Context</button>
+        </div>
+
+        <!-- Billing Modal -->
+        <div class="billing-modal" id="billing-modal">
+            <div class="billing-header">
+                <h2 style="font-size: 1.2rem; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Account & Subscription</h2>
+                <div class="billing-close" id="billing-close">&times;</div>
+            </div>
+            
+            <!-- Tab Contents -->
+            <!-- 1. Logged Out State (Auth Form) -->
+            <div id="billing-auth-section" class="billing-tab-content active">
+                <div class="auth-toggle">
+                    <button id="toggle-signin-tab" class="auth-tab-btn active">Sign In</button>
+                    <button id="toggle-signup-tab" class="auth-tab-btn">Sign Up</button>
+                </div>
+
+                <!-- Google Sign-in Block -->
+                <div id="auth-google-block" style="margin-bottom: 10px;">
+                    <button type="button" class="btn btn-google" id="btn-google-signin" style="width: 100%; justify-content: center; padding: 10px; font-weight: 600; font-size: 0.85rem; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" style="fill: #4285F4;"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22c-.87-2.6-2.3-4.53-2.3-4.53z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
+                        Continue with Google
+                    </button>
+                    <div class="auth-divider" style="display: flex; align-items: center; text-align: center; color: var(--text-secondary); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin: 10px 0;">or</div>
+                </div>
+                
+                <form id="auth-form" style="display: flex; flex-direction: column; gap: 12px; margin-top: 5px;">
+                    <div class="form-group">
+                        <label for="auth-email">Email Address</label>
+                        <input type="email" id="auth-email" required placeholder="name@domain.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="auth-password">Password</label>
+                        <input type="password" id="auth-password" required placeholder="••••••••">
+                    </div>
+                    <div id="auth-error-msg" class="auth-error" style="display: none;"></div>
+                    <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="justify-content: center; padding: 12px;">Sign In</button>
+                </form>
+            </div>
+            
+            <!-- 2. Logged In State (Dashboard) -->
+            <div id="billing-dashboard-section" class="billing-tab-content">
+                <div class="user-status-card">
+                    <div class="user-info">
+                        <span id="billing-user-email" style="font-weight: 600;">user@domain.com</span>
+                        <button id="btn-logout" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.7rem;">Sign Out</button>
+                    </div>
+                    
+                    <div class="plan-status-display">
+                        <div class="plan-badge" id="plan-badge-display">Free Trial</div>
+                        <div class="plan-details" id="plan-details-display">5 queries left</div>
+                    </div>
+                </div>
+                
+                <h3 style="font-size: 0.9rem; margin: 15px 0 10px 0; color: var(--text-secondary); font-weight: 600;">Upgrade Subscription</h3>
+                
+                <div class="plans-list-container">
+                    <div class="plan-card" data-plan="hourly">
+                        <div class="plan-card-info">
+                            <span class="plan-name">Hourly Plan</span>
+                            <span class="plan-desc">Adds 1 Hour of Listening</span>
+                        </div>
+                        <button class="btn btn-buy" data-plan="hourly">₹30</button>
+                    </div>
+                    <div class="plan-card" data-plan="daily">
+                        <div class="plan-card-info">
+                            <span class="plan-name">1 Day Pass</span>
+                            <span class="plan-desc">24 Hours Unlimited Access</span>
+                        </div>
+                        <button class="btn btn-buy" data-plan="daily">₹100</button>
+                    </div>
+                    <div class="plan-card" data-plan="monthly">
+                        <div class="plan-card-info">
+                            <span class="plan-name">1 Month Pass</span>
+                            <span class="plan-desc">30 Days Unlimited Access</span>
+                        </div>
+                        <button class="btn btn-buy" data-plan="monthly">₹3,000</button>
+                    </div>
+                    <div class="plan-card" data-plan="3_months">
+                        <div class="plan-card-info">
+                            <span class="plan-name">3 Months Pass</span>
+                            <span class="plan-desc">90 Days Unlimited Access</span>
+                        </div>
+                        <button class="btn btn-buy" data-plan="3_months">₹6,000</button>
+                    </div>
+                    <div class="plan-card" data-plan="6_months">
+                        <div class="plan-card-info">
+                            <span class="plan-name">6 Months Pass</span>
+                            <span class="plan-desc">180 Days Unlimited Access</span>
+                        </div>
+                        <button class="btn btn-buy" data-plan="6_months">₹9,000</button>
+                    </div>
+                    <div class="plan-card" data-plan="yearly">
+                        <div class="plan-card-info">
+                            <span class="plan-name">1 Year Pass</span>
+                            <span class="plan-desc">365 Days Unlimited Access</span>
+                        </div>
+                        <button class="btn btn-buy" data-plan="yearly">₹12,000</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="billing-status-msg" style="margin-top: 15px; font-size: 0.8rem; text-align: center; color: var(--success); display: none;"></div>
+        </div>
+
+        <!-- Floating Context Trigger -->
+        <div class="context-trigger" id="context-trigger">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>

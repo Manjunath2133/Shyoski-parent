@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import { UniverseCanvas } from './components/3d/UniverseCanvas'
 import { FloatingInterface } from './components/ui/FloatingInterface'
 import ShyoskiTalk from './pages/ShyoskiTalk'
+import ShyoskiAI from './pages/ShyoskiAI'
 import EnterTransition from './components/ui/EnterTransition'
 
 export default function App() {
@@ -105,6 +106,11 @@ export default function App() {
   // If route matches the talk page, render it full-screen
   if (route === '/ShyoskiTalk') {
     return <ShyoskiTalk />
+  }
+
+  // If route matches the AI page, render it full-screen
+  if (route === '/ShyoskiAI') {
+    return <ShyoskiAI />
   }
 
   return (
