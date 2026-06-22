@@ -3,7 +3,6 @@ import Lenis from 'lenis'
 import { UniverseCanvas } from './components/3d/UniverseCanvas'
 import { FloatingInterface } from './components/ui/FloatingInterface'
 import ShyoskiTalk from '../Shyoski-Talk/ShyoskiTalk'
-import ShyoskiTalk from './pages/ShyoskiTalk'
 import ShyoskiAI from '../Shyoski-INTAI/web/src/pages/ShyoskiAI'
 import EnterTransition from './components/ui/EnterTransition'
 
