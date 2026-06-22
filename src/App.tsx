@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Lenis from 'lenis'
 import { UniverseCanvas } from './components/3d/UniverseCanvas'
 import { FloatingInterface } from './components/ui/FloatingInterface'
-import ShyoskiTalk from './pages/ShyoskiTalk'
+import ShyoskiTalk from '../Shyoski-Talk/ShyoskiTalk'
 import EnterTransition from './components/ui/EnterTransition'
 
 export default function App() {
