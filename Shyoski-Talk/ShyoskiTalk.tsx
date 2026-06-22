@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MessageSquare, DownloadCloud, Smartphone, Globe, ChevronDown, ChevronUp } from 'lucide-react'
-import { MagneticButton } from '../components/ui/MagneticButton'
-import { UniverseCanvas } from '../components/3d/UniverseCanvas'
+import { MagneticButton } from '../src/components/ui/MagneticButton'
+import { UniverseCanvas } from '../src/components/3d/UniverseCanvas'
 import { Canvas } from '@react-three/fiber'
-import { TalkWorld } from '../components/3d/OrbitingWorlds'
+import { TalkWorld } from '../src/components/3d/OrbitingWorlds'
 
 export default function ShyoskiTalk() {
   const downloadHref = '/shyoskitalk.apk'
@@ -38,7 +38,6 @@ export default function ShyoskiTalk() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="relative max-w-7xl w-full bg-glass/80 border border-white/20 rounded-3xl shadow-glass backdrop-blur-md p-4 sm:p-6 md:p-8 pt-16 md:pt-12 grid grid-cols-1 md:grid-cols-3 gap-4 items-center justify-center mx-auto"
         >
-          
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 4, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
@@ -58,11 +57,11 @@ export default function ShyoskiTalk() {
               </button>
             <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-cyan-50/80 border border-cyan-100 mb-3">
               <MessageSquare className="w-5 h-5 text-cyan-500" />
-              <span className="text-xs font-semibold text-cyan-700 uppercase">ShyoskiTalk</span>
+              <span className="text-xs font-semibold text-cyan-700 uppercase">Shyoski Talk</span>
             </div>
 
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">
-              ShyoskiTalk
+              Shyoski Talk
               <span className="block text-cyan-600 mt-1 text-xl md:text-2xl font-semibold">Offline Real-time Voice Translation</span>
             </h1>
 
@@ -119,7 +118,7 @@ export default function ShyoskiTalk() {
               <ul className="space-y-1">
                 <li><span className="font-semibold">Platform:</span> Android device</li>
                 <li><span className="font-semibold">RAM:</span> 6GB recommended; 4GB minimum</li>
-                <li><span className="font-semibold">Storage:</span> 1.5GB available</li>
+                <li><span className="font-semibold">Storage:</span> At least 1.5GB available</li>
                 <li><span className="font-semibold">Connectivity:</span> Bluetooth LE (Low Energy)</li>
               </ul>
             </div>
@@ -168,6 +167,9 @@ export default function ShyoskiTalk() {
           </div>
         </button>
       </div>
+
+      {/* Track scroll to toggle hint */}
+      
     </div>
   )
 }
