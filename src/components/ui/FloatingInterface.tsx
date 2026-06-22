@@ -26,7 +26,7 @@ const sectionInfo = [
   },
   {
     id: 'talk',
-    title: 'ShyoskiTalk',
+    title: 'Shyoski Talk',
     badge: 'Offline AI Translation',
     description: 'Completely offline real-time voice translation. Leveraging high-performance language particles to bridge dialogue globally without cellular or cloud dependency.',
     link: '/ShyoskiTalk',
@@ -70,7 +70,7 @@ export function FloatingInterface({ activeSection, scrollProgress, onNavigate }:
           {/* Quick links / CTA */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
             <button onClick={() => onNavigate(1)} className={`hover:text-gray-900 transition-colors ${activeSection === 1 ? 'text-blue-600 font-semibold' : ''}`}>Internships</button>
-            <button onClick={() => onNavigate(2)} className={`hover:text-gray-900 transition-colors ${activeSection === 2 ? 'text-cyan-600 font-semibold' : ''}`}>ShyoskiTalk</button>
+            <button onClick={() => onNavigate(2)} className={`hover:text-gray-900 transition-colors ${activeSection === 2 ? 'text-cyan-600 font-semibold' : ''}`}>Shyoski Talk</button>
             <button onClick={() => onNavigate(3)} className={`hover:text-gray-900 transition-colors ${activeSection === 3 ? 'text-emerald-600 font-semibold' : ''}`}>Shyoski INTAI</button>
             <button onClick={() => onNavigate(4)} className={`hover:text-gray-900 transition-colors ${activeSection === 4 ? 'text-purple-600 font-semibold' : ''}`}>Innovations</button>
           </nav>
