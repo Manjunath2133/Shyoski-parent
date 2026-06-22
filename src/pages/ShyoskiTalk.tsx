@@ -36,15 +36,26 @@ export default function ShyoskiTalk() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-7xl w-full bg-glass/80 border border-white/20 rounded-3xl shadow-glass backdrop-blur-md p-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center justify-center mx-auto"
+          className="relative max-w-7xl w-full bg-glass/80 border border-white/20 rounded-3xl shadow-glass backdrop-blur-md p-4 sm:p-6 md:p-8 pt-16 md:pt-12 grid grid-cols-1 md:grid-cols-3 gap-4 items-center justify-center mx-auto"
         >
+          
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 4, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
             className="col-span-1 md:col-span-2 w-full flex items-center justify-center"
           >
-            <div className="w-full md:w-2/3 lg:w-1/2">
-            <img src="/logo.png" alt="Shyoski Logo" className="w-20 h-auto mx-auto mb-3" />
+            <div className="w-full md:w-2/3 lg:w-1/2 relative">
+              <button
+                type="button"
+                onClick={() => {
+                  window.history.pushState(null, '', '/')
+                  window.dispatchEvent(new PopStateEvent('popstate'))
+                }}
+                aria-label="Return to Shyoski Core"
+                className="absolute left-4 top-4 md:-left-20 md:-top-10 z-40 p-1 rounded-full bg-white/5 hover:bg-white/10 pointer-events-auto"
+              >
+                <img src="/logo.png" alt="Shyoski Logo" className="w-10 md:w-16 h-auto block" />
+              </button>
             <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-cyan-50/80 border border-cyan-100 mb-3">
               <MessageSquare className="w-5 h-5 text-cyan-500" />
               <span className="text-xs font-semibold text-cyan-700 uppercase">ShyoskiTalk</span>
@@ -102,6 +113,16 @@ export default function ShyoskiTalk() {
                 Return to Core
               </button>
             </div>
+
+            <div className="mt-6 bg-white/5 border border-white/10 rounded-lg p-4 text-sm text-gray-700 max-w-xl mx-auto">
+              <strong className="block text-gray-800 mb-2">System Requirements</strong>
+              <ul className="space-y-1">
+                <li><span className="font-semibold">Platform:</span> Android device</li>
+                <li><span className="font-semibold">RAM:</span> 6GB recommended; 4GB minimum</li>
+                <li><span className="font-semibold">Storage:</span> 1.5GB available</li>
+                <li><span className="font-semibold">Connectivity:</span> Bluetooth LE (Low Energy)</li>
+              </ul>
+            </div>
             </div>
           </motion.div>
 
@@ -127,12 +148,11 @@ export default function ShyoskiTalk() {
         </motion.main>
       </AnimatePresence>
 
-      {/* Scroll hint fixed at bottom center */}
+      {/* Scroll hint: show 'Scroll to download' when at top; when scrolled show only up arrow */}
       <div className="fixed left-1/2 transform -translate-x-1/2 bottom-6 z-20">
         <button
           onClick={() => {
             if (!scrolled) {
-              // scroll down to main card
               const el = document.querySelector('main') as HTMLElement | null
               if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
             } else {
@@ -140,19 +160,14 @@ export default function ShyoskiTalk() {
             }
           }}
           aria-label={scrolled ? 'Scroll to top' : 'Scroll to download'}
-          className="flex flex-col items-center gap-1 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-full border border-white/20 hover:bg-white/20"
+          className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-full border border-white/20 hover:bg-white/20"
         >
-          <div className="text-xs text-cyan-600 font-medium">
-            {!scrolled && <span>Scroll to download</span>}
-          </div>
+          {!scrolled && <div className="text-xs text-cyan-600 font-medium">Scroll to download</div>}
           <div>
-            {!scrolled ? <ChevronDown className="w-6 h-6 text-cyan-600" /> : <ChevronUp className="w-6 h-6 text-cyan-600" />}
+            {scrolled ? <ChevronUp className="w-6 h-6 text-cyan-600" /> : <ChevronDown className="w-6 h-6 text-cyan-600" />}
           </div>
         </button>
       </div>
-
-      {/* Track scroll to toggle hint */}
-      
     </div>
   )
 }
