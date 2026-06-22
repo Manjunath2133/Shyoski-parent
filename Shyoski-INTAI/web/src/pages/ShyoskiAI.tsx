@@ -12,10 +12,10 @@ import {
   Terminal,
   FileText
 } from 'lucide-react'
-import { MagneticButton } from '../components/ui/MagneticButton'
-import { UniverseCanvas } from '../components/3d/UniverseCanvas'
+import { MagneticButton } from '../../../../src/components/ui/MagneticButton'
+import { UniverseCanvas } from '../../../../src/components/3d/UniverseCanvas'
 import { Canvas } from '@react-three/fiber'
-import { AIWorld } from '../components/3d/OrbitingWorlds'
+import { AIWorld } from '../../../../src/components/3d/OrbitingWorlds'
 
 // ============================================================
 // 1. LISENSING & AUTH CONTEXT
