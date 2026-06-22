@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Terms() {
   return (
-    <main className="doc-wrapper">
+    <main className="doc-wrapper" style={{ paddingTop: '92px' }}>
       <div className="doc-header">
         <h1>End User Terms of Service</h1>
         <p>Last Updated & Effective Date: June 11, 2026</p>

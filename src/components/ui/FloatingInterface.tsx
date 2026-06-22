@@ -61,8 +61,8 @@ export function FloatingInterface({ activeSection, scrollProgress, onNavigate }:
         <div className="max-w-7xl mx-auto flex items-center justify-between bg-glass px-6 py-4 rounded-full shadow-glass border border-white/40">
           {/* Logo Brand */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate(0)}>
-            <img src="/logo.png" alt="Shyoski Logo" className="h-9 w-auto" />
-            <span className="text-xl font-bold tracking-tight text-gray-900 font-sans">
+            <img src="/logo.png" alt="Shyoski Logo" className="h-10 w-auto md:h-11" />
+            <span className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-900 font-sans">
               SHYOSKI
             </span>
           </div>
@@ -84,7 +84,7 @@ export function FloatingInterface({ activeSection, scrollProgress, onNavigate }:
       {/* 2. Main Floating Content Zone */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-8 flex items-center relative">
         {/* Dynamic Card Display based on scroll triggers */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center h-full py-12">
+        <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center h-full py-8">
           
           {/* Left / Center: Landing Copy */}
           <div className="md:col-span-6 flex flex-col justify-center items-start text-left select-none">
@@ -99,7 +99,7 @@ export function FloatingInterface({ activeSection, scrollProgress, onNavigate }:
                   className="space-y-6"
                 >
                   <div className="inline-flex items-center gap-2 bg-blue-50/70 border border-blue-100 px-4 py-2 rounded-full backdrop-blur-md shadow-sm">
-                    <Compass className="w-4 h-4 text-blue-500 animate-spin-slow" />
+                    <Compass className="w-5 h-5 text-blue-500 animate-spin-slow" />
                     <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">Innovation Ecosystem</span>
                   </div>
                   <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-none text-gray-900">
@@ -144,7 +144,7 @@ export function FloatingInterface({ activeSection, scrollProgress, onNavigate }:
         </div>
 
         {/* 3. Spatial Vertical Indicators (Floating Right Sidebar) */}
-        <aside className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-4 bg-white/30 hover:bg-white/55 px-3 py-6 rounded-full border border-white/40 shadow-glass backdrop-blur-md pointer-events-auto transition-all duration-300 group">
+        <aside className="absolute right-8 top-[42%] -translate-y-1/2 flex flex-col items-center gap-4 bg-white/30 hover:bg-white/55 px-3 py-6 rounded-full border border-white/40 shadow-glass backdrop-blur-md pointer-events-auto transition-all duration-300 group">
           {sectionInfo.map((sec, idx) => (
             <button
               key={sec.id}

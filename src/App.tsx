@@ -3,8 +3,10 @@ import Lenis from 'lenis'
 import { UniverseCanvas } from './components/3d/UniverseCanvas'
 import { FloatingInterface } from './components/ui/FloatingInterface'
 import ShyoskiTalk from '../Shyoski-Talk/ShyoskiTalk'
+import ShyoskiTalkTerms from '../Shyoski-Talk/ShyoskiTalkTerms'
 import ShyoskiAI from '../Shyoski-INTAI/web/src/pages/ShyoskiAI'
 import EnterTransition from './components/ui/EnterTransition'
+import Footer from './components/ui/Footer'
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(0)
@@ -108,13 +110,18 @@ export default function App() {
     return <ShyoskiTalk />
   }
 
+  // If route matches the ShyoskiTalk terms page, render full-page terms
+  if (route === '/ShyoskiTalk/terms') {
+    return <ShyoskiTalkTerms />
+  }
+
   // If route matches the AI page, render it full-screen
   if (route === '/ShyoskiAI') {
     return <ShyoskiAI />
   }
 
   return (
-    <div className="relative w-full min-h-screen bg-futuristic-bg">
+    <div className="relative w-full min-h-screen bg-futuristic-bg pb-36">
       <EnterTransition />
       {/* 3D WebGL Universe Canvas in Background */}
       <UniverseCanvas
@@ -134,6 +141,7 @@ export default function App() {
         Creates a 500vh page height where the camera and UI changes are triggered on scroll progress.
       */}
       <div className="relative z-0 h-[500vh] w-full pointer-events-none" />
+      {route === '/' && scrollProgress > 0.98 && <Footer />}
     </div>
   )
 }

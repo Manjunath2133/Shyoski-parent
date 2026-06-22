@@ -5,6 +5,7 @@ import { MagneticButton } from '../src/components/ui/MagneticButton'
 import { UniverseCanvas } from '../src/components/3d/UniverseCanvas'
 import { Canvas } from '@react-three/fiber'
 import { TalkWorld } from '../src/components/3d/OrbitingWorlds'
+import ShyoskiTalkNav from './ShyoskiTalkNav'
 
 export default function ShyoskiTalk() {
   const downloadHref = '/shyoskitalk.apk'
@@ -24,19 +25,20 @@ export default function ShyoskiTalk() {
   }, [])
 
   return (
-    <div id="shyoskitalk-root" ref={rootRef} tabIndex={-1} className="relative min-h-screen w-full bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center p-8 font-sans overflow-auto">
+    <div id="shyoskitalk-root" ref={rootRef} tabIndex={-1} className="relative min-h-screen w-full bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center p-8 font-sans overflow-auto pt-24">
       {/* 3D background canvas (subtle, pointer-events-none) */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <UniverseCanvas scrollProgressRef={scrollProgressRef as any} mousePosRef={mousePosRef as any} />
       </div>
 
       <AnimatePresence>
+        <ShyoskiTalkNav />
         <motion.main
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative max-w-7xl w-full bg-glass/80 border border-white/20 rounded-3xl shadow-glass backdrop-blur-md p-4 sm:p-6 md:p-8 pt-16 md:pt-12 grid grid-cols-1 md:grid-cols-3 gap-4 items-center justify-center mx-auto"
+            className="relative max-w-7xl w-full bg-glass/80 border border-white/20 rounded-3xl shadow-glass backdrop-blur-md p-4 sm:p-6 md:p-8 pt-16 md:pt-12 grid grid-cols-1 md:grid-cols-3 gap-4 items-start justify-center mx-auto"
         >
           <motion.div
             animate={{ y: [0, -8, 0] }}
@@ -44,17 +46,7 @@ export default function ShyoskiTalk() {
             className="col-span-1 md:col-span-2 w-full flex items-center justify-center"
           >
             <div className="w-full md:w-2/3 lg:w-1/2 relative">
-              <button
-                type="button"
-                onClick={() => {
-                  window.history.pushState(null, '', '/')
-                  window.dispatchEvent(new PopStateEvent('popstate'))
-                }}
-                aria-label="Return to Shyoski Core"
-                className="absolute left-4 top-4 md:-left-20 md:-top-10 z-40 p-1 rounded-full bg-white/5 hover:bg-white/10 pointer-events-auto"
-              >
-                <img src="/logo.png" alt="Shyoski Logo" className="w-10 md:w-16 h-auto block" />
-              </button>
+              {/* logo moved to top navbar */}
             <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-cyan-50/80 border border-cyan-100 mb-3">
               <MessageSquare className="w-5 h-5 text-cyan-500" />
               <span className="text-xs font-semibold text-cyan-700 uppercase">Shyoski Talk</span>
@@ -126,7 +118,7 @@ export default function ShyoskiTalk() {
           </motion.div>
 
           {/* Right-side small 3D preview */}
-          <aside className="hidden md:flex md:col-span-1 items-center justify-center">
+          <aside className="hidden md:flex md:col-span-1 items-center justify-center md:translate-y-8">
             <div className="w-64 h-64 rounded-xl bg-white/5 border border-white/10 shadow-glass p-2 flex items-center justify-center">
               <Canvas
                 gl={{ antialias: true, alpha: true }}
@@ -146,6 +138,8 @@ export default function ShyoskiTalk() {
           </div>
         </motion.main>
       </AnimatePresence>
+
+      {/* (Terms moved to their own full-page route: /ShyoskiTalk/terms) */}
 
       {/* Scroll hint: show 'Scroll to download' when at top; when scrolled show only up arrow */}
       <div className="fixed left-1/2 transform -translate-x-1/2 bottom-6 z-20">

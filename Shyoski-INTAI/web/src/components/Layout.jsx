@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Logo from './Logo';
 import AuthModal from './AuthModal';
+import ShyoskiTermsBar from './ShyoskiTermsBar';
 
 export default function Layout({ children }) {
   const {
@@ -54,6 +55,7 @@ export default function Layout({ children }) {
 
   return (
     <>
+      <ShyoskiTermsBar />
       {/* Header Navigation */}
       <header>
         <div className="nav-container">
