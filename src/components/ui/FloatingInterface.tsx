@@ -29,7 +29,7 @@ const sectionInfo = [
     title: 'ShyoskiTalk',
     badge: 'Offline AI Translation',
     description: 'Completely offline real-time voice translation. Leveraging high-performance language particles to bridge dialogue globally without cellular or cloud dependency.',
-    link: 'https://talk.shyoski.com',
+    link: '/Shyoski/Talk',
     gradient: 'from-cyan-500 to-teal-500',
     icon: <MessageSquare className="w-6 h-6 text-cyan-500" />
   },

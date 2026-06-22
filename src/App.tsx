@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import Lenis from 'lenis'
 import { UniverseCanvas } from './components/3d/UniverseCanvas'
 import { FloatingInterface } from './components/ui/FloatingInterface'
+import ShyoskiTalk from './pages/ShyoskiTalk'
+import EnterTransition from './components/ui/EnterTransition'
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(0)
@@ -92,9 +94,22 @@ export default function App() {
       force: true
     })
   }
+  const [route, setRoute] = useState(window.location.pathname)
+
+  useEffect(() => {
+    const onPop = () => setRoute(window.location.pathname)
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  // If route matches the talk page, render it full-screen
+  if (route === '/Shyoski/Talk') {
+    return <ShyoskiTalk />
+  }
 
   return (
     <div className="relative w-full min-h-screen bg-futuristic-bg">
+      <EnterTransition />
       {/* 3D WebGL Universe Canvas in Background */}
       <UniverseCanvas
         scrollProgressRef={scrollProgressRef}

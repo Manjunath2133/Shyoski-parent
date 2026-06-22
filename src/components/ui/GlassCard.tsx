@@ -41,18 +41,42 @@ export function GlassCard({ title, description, badge, link, gradientClass = 'fr
       </p>
 
       {/* Bottom link with arrow */}
-      <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-300 relative py-1"
-      >
-        <span>Enter Ecosystem</span>
-        <span className="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center border border-white/50 shadow-glass-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </span>
-        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300 group-hover:w-full" />
-      </a>
+      {link.startsWith('/') ? (
+        <a
+          href={link}
+          onClick={(e) => {
+            e.preventDefault()
+            // Trigger global enter transition; listener in App will navigate after animation
+            try {
+              window.dispatchEvent(new CustomEvent('shyoski:navigate', { detail: { path: link } }))
+            } catch (err) {
+              // Fallback to immediate navigation
+              window.history.pushState(null, '', link)
+              window.dispatchEvent(new PopStateEvent('popstate'))
+            }
+          }}
+          className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-300 relative py-1"
+        >
+          <span>Enter Ecosystem</span>
+          <span className="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center border border-white/50 shadow-glass-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </span>
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300 group-hover:w-full" />
+        </a>
+      ) : (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-300 relative py-1"
+        >
+          <span>Enter Ecosystem</span>
+          <span className="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center border border-white/50 shadow-glass-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </span>
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300 group-hover:w-full" />
+        </a>
+      )}
     </motion.div>
   )
 }
