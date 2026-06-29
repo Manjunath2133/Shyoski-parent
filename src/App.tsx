@@ -5,6 +5,7 @@ import { FloatingInterface } from './components/ui/FloatingInterface'
 import ShyoskiTalk from '../Shyoski-Talk/ShyoskiTalk'
 import ShyoskiTalkTerms from '../Shyoski-Talk/ShyoskiTalkTerms'
 import ShyoskiAI from '../Shyoski-INTAI/web/src/pages/ShyoskiAI'
+import ShyoskiINMAS from '../Shyoski-INMAS/shyoski-frontend/src/pages/ShyoskiINMAS'
 import EnterTransition from './components/ui/EnterTransition'
 import Footer from './components/ui/Footer'
 
@@ -118,6 +119,11 @@ export default function App() {
   // If route matches the AI page, render it full-screen
   if (route === '/ShyoskiAI') {
     return <ShyoskiAI />
+  }
+
+  // If route starts with the internships page, render it full-screen
+  if (route.startsWith('/ShyoskiINMAS')) {
+    return <ShyoskiINMAS />
   }
 
   return (

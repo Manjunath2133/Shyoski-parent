@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}
+/* Ensure logos, signatures & QR are printed clearly */
+img {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+@media print {
+  .chairman-sign {
+    filter: contrast(2.6) brightness(0.5) saturate(1.4) !important;
+  }
+}

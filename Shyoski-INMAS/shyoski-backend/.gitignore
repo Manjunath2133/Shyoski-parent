@@ -1,0 +1,6 @@
+node_modules
+.wrangler
+environment-validation-report.json
+backend.log
+.dev.vars
+.dev.vars.local

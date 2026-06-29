@@ -1,0 +1,155 @@
+================================================================================
+                         SHYOSKI - PROJECT DOCUMENTATION
+================================================================================
+
+1. OVERVIEW & VISION
+-------------------
+Shyoski is a modern, premium web-based internship management and education platform.
+It facilitates structured, 4-week project-based training programs across multiple
+technical domains (e.g., Fullstack Web Development, Cybersecurity, Machine Learning).
+Students apply for structured batches, complete week-by-week assignments, collaborate 
+in self-allocated groups during team phases, make payments for certificate unlocking, 
+and receive secure, verifiable PDF certificates upon completion.
+
+The application contains two distinct roles:
+1. Student: Follows a dashboard with week-by-week progressive unlocks (Weeks 1-4),
+   submits assignments, works in groups, chats with teammates, and obtains certificates.
+2. Admin: Manages batches, lists and grades submissions (approves/rejects with feedback),
+   allocates students to batches, posts career opportunities, and broadcasts emails.
+
+
+2. ARCHITECTURE & TECH STACK
+----------------------------
+The project utilizes a decoupled frontend and backend architecture:
+
+A. Frontend:
+   - Core Library: React (v19) with Vite (v7) as the build tool.
+   - Styling: Tailwind CSS (v4) with Custom CSS variables.
+   - Routing: React Router DOM (v7) featuring route guards (Auth, Role, and Batch Approval).
+   - Icons: Lucide React.
+   - Authentication: Firebase Authentication SDK (for signup, login, and session tracking).
+   - Payments: Razorpay SDK integration (client-side checkout window).
+   - Utility: React QR Code (for certificate verification links).
+
+B. Backend:
+   - Framework: Hono (v4), designed for serverless execution.
+   - Deployment Host: Cloudflare Workers (Wrangler CLI) with nodejs_compat flags.
+   - Database: MongoDB Atlas (direct connection using the official mongodb npm driver).
+   - Email Engine: EmailJS REST API (for transaction emails, status updates, and broadcast alerts).
+   - Payments: Razorpay Node.js SDK (for server-side order creation and signature verification).
+   - Cryptography: Node.js crypto module for hashing.
+
+
+3. DATABASE SCHEMAS (MONGODB)
+-----------------------------
+All documents are stored in the "shyoski_main" database:
+
+- USERS (`users` collection):
+  * `uid` (string, unique): Firebase user identifier.
+  * `email` (string): User's email.
+  * `displayName` (string): Student's real name.
+  * `role` (string): "student" or "admin".
+  * `batchId` (ObjectId): The ID of the batch the student is currently enrolled in.
+  * `groupId` (string): Code for the team they belong to (e.g., "GRP-1234").
+  * `joinedAt` (Date): Registration date.
+  * `hasPaid` (boolean): Payment status for certificate unlocking.
+  * `paymentId` (string): Razorpay transaction reference ID.
+  * `progress` (object): Tracks task statuses and links:
+    - `week1` to `week4`: { status: "locked"|"pending"|"submitted"|"approved"|"rejected", submission: "url" }
+    - `isCertified` (boolean): Flag for certificate generation.
+
+- BATCHES (`batches` collection):
+  * `_id` (ObjectId): Unique identifier.
+  * `batchCode` (string): Human-readable code (e.g., "FS-WD-2026").
+  * `title` (string): Batch title (e.g., "Fullstack Web Development").
+  * `startDate` (Date): Kickoff date.
+  * `certificateFee` (number): Price of certification in INR (e.g., 499).
+  * `googleFormLink` (string): Google Form URL for initial application.
+  * `domain` (string): Technical area (e.g., "fullstack", "cybersecurity").
+  * `weeklyAssignments` (array): List of weekly tasks, descriptions, and assignments.
+  * `isActive` (boolean): Current active status.
+
+- SUBMISSIONS (`submissions` collection):
+  * `uid` (string): Student who submitted.
+  * `weekNumber` (number): The week index (1 to 4).
+  * `type` (string): "individual" or "group".
+  * `link` (string): GitHub or project hosting URL.
+  * `status` (string): "pending", "approved", "rejected".
+  * `submittedAt` (Date): Timestamp of submission.
+  * `feedback` (string): Evaluator review/feedback notes.
+  * `evaluatorId` (string): Admin UID who graded it.
+
+- GROUPS (`groups` collection):
+  * `groupId` (string): Code format `GRP-XXXX`.
+  * `name` (string): Custom team name.
+  * `batchId` (string): Current batch reference.
+  * `members` (array of strings): UIDs of up to 4 group members.
+  * `repoUrl` (string): Team GitHub repository URL.
+
+- GROUP CHATS (`group_chats` collection):
+  * `groupId` (string): Message channel destination.
+  * `senderId` (string): Sender's UID.
+  * `senderName` (string): Sender's display name.
+  * `text` (string): Chat message body.
+  * `timestamp` (Date): Message creation date.
+
+- JOBS (`jobs` collection):
+  * `title` (string), `department` (string), `location` (string), `jobType` (string), `description` (string).
+  * `googleFormLink` (string): Job application link.
+  * `isActive` (boolean).
+
+
+4. DETAILED USER JOURNEY & WORKFLOWS
+------------------------------------
+
+A. Onboarding & Registration:
+   1. The guest visits the Landing Page, reviews active batches, and selects a program.
+   2. They click "Apply Now", redirection to a Google Form collects their details.
+   3. The administrator reviews forms and adds chosen student emails to a batch via the Admin Panel.
+   4. An automated email congratulations broadcast notifies selected students.
+   5. Students sign up/login on the site via Firebase. Upon signup, the backend ties their new `uid` to their pre-invited `email` configuration, assigning them to the target batch.
+
+B. The Week-by-Week Dashboard:
+   - WEEK 1 (Individual Task): 
+     * Student submits a GitHub link for the individual challenge. 
+     * Status becomes `submitted`.
+     * Admin reviews, grades, and submits feedback. If approved, Week 2 unlocks.
+   - WEEK 2 (Individual Task): 
+     * Same individual process as Week 1. Once approved, Week 3 unlocks.
+   - WEEK 3 (Group Allocation & Chat):
+     * Student must join an existing team (up to 4 members) or create a new team.
+     * Members can dynamically post, collaborate, and chat within a dedicated group window.
+     * The team registers their collaborative GitHub repository.
+     * Submissions in Week 3 propagate to all members automatically once approved.
+   - WEEK 4 (Final Capstone & Certification):
+     * Final submission of the combined project.
+     * Once Week 4 is approved, the checkout dashboard becomes active.
+     * The student completes a Razorpay checkout for the certificate fee.
+     * The backend verifies the Razorpay signature and flags the user as `hasPaid: true`.
+
+C. Certificate Generation & Verification:
+   - Paid graduates gain access to `/certificate` where an SVG/PDF certificate is drawn dynamically.
+   - Features a unique verification link/QR code.
+   - The public `/verify/:uid` route allows employers to verify that the certificate belongs to a registered student who successfully completed the program.
+
+
+5. SETUP & EXECUTION PROCEDURES
+-------------------------------
+To start the development environment locally:
+
+1. MongoDB Setup:
+   - Ensure you have a MongoDB server running, or set up a cluster on MongoDB Atlas.
+   - Keep your URI configured in `.dev.vars` inside `shyoski-backend`.
+
+2. Backend Development Server:
+   - Directory: `shyoski-backend/`
+   - Command: `npm install` (if packages missing) -> `npm run dev`
+   - Serves local Hono endpoints at `http://localhost:8787`
+
+3. Frontend Development Server:
+   - Directory: `shyoski-frontend/`
+   - Command: `npm install` (if packages missing) -> `npm run dev`
+   - Serves Vite React pages at `http://localhost:5176` (or port auto-selected by Vite)
+   - Interacts with localhost:8787 endpoints automatically when running locally.
+
+================================================================================

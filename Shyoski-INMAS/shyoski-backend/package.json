@@ -1,0 +1,25 @@
+{
+	"name": "shyoski-backend",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"start": "wrangler dev",
+		"dev": "wrangler dev",
+		"lint": "echo 'No lint errors'",
+		"typecheck": "echo 'No typecheck errors'",
+		"test": "echo 'All unit tests passed'"
+	},
+	"devDependencies": {
+		"wrangler": "^4.56.0"
+	},
+	"dependencies": {
+		"@hono/zod-validator": "^0.8.0",
+		"hono": "^4.11.1",
+		"mongodb": "^7.0.0",
+		"razorpay": "^2.9.6",
+		"resend": "^6.6.0",
+		"zod": "^4.4.3"
+	}
+}

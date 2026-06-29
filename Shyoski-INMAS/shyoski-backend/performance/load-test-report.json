@@ -1,0 +1,47 @@
+{
+  "profile": "mini",
+  "timestamp": "2026-06-19T12:38:20.701Z",
+  "serverTested": "API",
+  "volumes": {
+    "orgs": 5,
+    "students": 10,
+    "batches": 5,
+    "enrollments": 20,
+    "submissions": 30,
+    "notifications": 50,
+    "auditLogs": 100,
+    "jobs": 5,
+    "jobApplications": 20,
+    "certificates": 10
+  },
+  "results": [
+    {
+      "metric": "API_audit_logs_actions",
+      "samples": 20,
+      "avgLatencyMs": 37.25,
+      "maxLatencyMs": 46,
+      "minLatencyMs": 29
+    },
+    {
+      "metric": "API_dashboard_org",
+      "samples": 20,
+      "avgLatencyMs": 291.35,
+      "maxLatencyMs": 393,
+      "minLatencyMs": 238
+    },
+    {
+      "metric": "API_certificate_verify",
+      "samples": 20,
+      "avgLatencyMs": 291.55,
+      "maxLatencyMs": 392,
+      "minLatencyMs": 238
+    },
+    {
+      "metric": "API_dashboard_super",
+      "samples": 20,
+      "avgLatencyMs": 292.75,
+      "maxLatencyMs": 393,
+      "minLatencyMs": 248
+    }
+  ]
+}

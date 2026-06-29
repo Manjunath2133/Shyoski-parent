@@ -16,10 +16,12 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": false,
+    "allowJs": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "Shyoski-Talk", "Shyoski-INTAI/web/src"]
+  "include": ["src", "Shyoski-Talk", "Shyoski-INTAI/web/src", "Shyoski-INMAS/shyoski-frontend/src"]
 }

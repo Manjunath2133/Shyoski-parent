@@ -20,7 +20,7 @@ const sectionInfo = [
     title: 'Shyoski Internships',
     badge: 'Talent Management',
     description: 'A floating futuristic campus simplifying internship management. Automate verification, monitor candidate progress, and bridge student talent to global certification frameworks.',
-    link: 'https://internships.shyoski.com',
+    link: '/ShyoskiINMAS',
     gradient: 'from-blue-500 to-indigo-500',
     icon: <GraduationCap className="w-6 h-6 text-blue-500" />
   },

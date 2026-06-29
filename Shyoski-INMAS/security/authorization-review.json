@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-06-19T18:43:16.644Z",
+  "criticalFailures": 2,
+  "checks": [
+    {
+      "name": "cross_tenant_access",
+      "status": "failed",
+      "message": "VULNERABILITY: Cross-tenant check returned status 500 instead of 403 PERMISSION_DENIED (Payload: {\"success\":false,\"error\":{\"code\":\"INTERNAL_SERVER_ERROR\",\"correlationId\":\"868a90f3-b51d-4f7e-96ac-336951a0f4f3\"}})"
+    },
+    {
+      "name": "ownership_bypass",
+      "status": "failed",
+      "message": "VULNERABILITY: Ownership check returned status 404 instead of 403 (Payload: {\"error\":\"Not Found: Submission does not exist\"})"
+    },
+    {
+      "name": "membership_suspension_bypass",
+      "status": "passed",
+      "message": "Membership suspension bypass attempts successfully blocked with 403 PERMISSION_DENIED"
+    },
+    {
+      "name": "archived_org_mutation",
+      "status": "passed",
+      "message": "Archived organization mutations successfully blocked with 403 PERMISSION_DENIED"
+    }
+  ]
+}

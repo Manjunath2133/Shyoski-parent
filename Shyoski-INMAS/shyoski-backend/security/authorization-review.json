@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-06-19T13:02:45.857Z",
+  "criticalFailures": 0,
+  "checks": [
+    {
+      "name": "cross_tenant_access",
+      "status": "passed",
+      "message": "Cross-tenant access attempts successfully blocked with 403 PERMISSION_DENIED"
+    },
+    {
+      "name": "ownership_bypass",
+      "status": "passed",
+      "message": "Ownership bypass attempts successfully blocked with 403 PERMISSION_DENIED"
+    },
+    {
+      "name": "membership_suspension_bypass",
+      "status": "passed",
+      "message": "Membership suspension bypass attempts successfully blocked with 403 PERMISSION_DENIED"
+    },
+    {
+      "name": "archived_org_mutation",
+      "status": "passed",
+      "message": "Archived organization mutations successfully blocked with 403 PERMISSION_DENIED"
+    }
+  ]
+}

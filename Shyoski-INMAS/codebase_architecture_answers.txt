@@ -1,0 +1,116 @@
+# Shyoski Architecture & Design Specifications
+
+This document addresses all the questions regarding the authentication, database models, relationships, and backend structures of the Shyoski application.
+
+---
+
+### 1. Authentication
+* **How do users log in?**
+  Users authenticate on the client side using the Firebase Authentication SDK (sign-up, login, password reset).
+* **Firebase Authentication only or Firebase + custom JWT?**
+  Firebase Authentication only. The client retrieves the Firebase ID Token (JWT) and passes it in the `Authorization` header as a Bearer token:
+  `Authorization: Bearer <firebase_id_token>`
+* **How does the backend identify the current user?**
+  The Hono backend uses a custom middleware (`RequireAuth` in `src/middleware/auth.js`) that cryptographically validates the token signature using the Web Crypto API on Cloudflare Workers against Google's public JWK certificates. Once validated, it extracts the Firebase UID (`payload.sub`) and email (`payload.email`), storing this metadata on Hono's context (`c.set('user', { uid, email, globalRole })`) for downstream route use.
+
+---
+
+### 2. Database Schema
+* **How are users stored?**
+  There is a single `users` collection in MongoDB that holds user accounts (UID, email, display name, etc.).
+* **Are user roles stored inside the user collection or separate collections?**
+  User roles are organization-specific (multi-tenant) and are stored in the `organization_memberships` collection, which links:
+  - `organizationId` (ObjectId)
+  - `uid` (string)
+  - `role` (string: `'student'`, `'mentor'`, `'evaluator'`, or `'org_admin'`)
+  - `status` (string: `'active'` or `'suspended'`)
+  Additionally, for system-wide administrators, a `globalRole` claim (`'super_admin'`) is set/checked directly in the Firebase JWT.
+
+---
+
+### 3. Mentor Assignment
+* **How do you know which mentor belongs to which student?**
+  Mentors are not mapped directly to students (there is no direct 1-to-1 link). Instead, the relationship is mapped through the **Batch/Cohort**:
+  1. Mentors are assigned to batches via the `batch_assignments` collection (linking `batchId`, `uid` of the mentor, `role: 'mentor'`, and `status: 'active'`).
+  2. Students are enrolled in batches via the `batch_enrollments` collection (linking `batchId`, `uid` of the student, and `status: 'active'`).
+  Any active mentor assigned to a batch oversees all students enrolled in that batch.
+
+---
+
+### 4. Evaluator Assignment
+* **How do you know which evaluator belongs to which student?**
+  Exactly the same as mentors. Evaluators are assigned to a batch via the `batch_assignments` collection (role: `'evaluator'`), and students are enrolled in the batch via the `batch_enrollments` collection. Any evaluator assigned to a batch has permissions to grade and review coursework submissions from all students in that batch.
+
+---
+
+### 5. Internship Model
+* **Can a student have one internship or multiple internships?**
+  A student can have **multiple internships**. An internship is represented by an enrollment in a batch (`batch_enrollments`). The MongoDB unique index enforces uniqueness per batch-student pair (`{ batchId: 1, uid: 1 }`), which allows a student to be enrolled in multiple different batches (cybersecurity, fullstack, etc.) either simultaneously or sequentially.
+
+---
+
+### 6. Task Model
+* **Is the task structure embedded or separate?**
+  Tasks/assignments are embedded directly in the `batches` collection within the `weeklyAssignments` array.
+* **What is the task structure?**
+  Each assignment object in the `weeklyAssignments` array contains:
+  - `_id` (string, unique assignment identifier)
+  - `week` (number, e.g. 1 to 4)
+  - `title` (string)
+  - `description` (string)
+  - `submissionType` (string: `'individual'` or `'group'`)
+  - Custom metadata (e.g. `dueDate`, etc.)
+  It does not store `mentorId` or `internshipId` because the tasks belong to the batch itself.
+
+---
+
+### 7. GitHub Submission
+* **When a student submits, what is the structure?**
+  Submissions are stored in the `submissions` collection with the following structure:
+  - `_id` (ObjectId)
+  - `organizationId` (ObjectId)
+  - `batchId` (ObjectId)
+  - `assignmentId` (string, matches the embedded `weeklyAssignments` ID)
+  - `uid` (string, student's UID — present for individual submissions)
+  - `groupId` (string, e.g. `GRP-XXXX` — present for group submissions)
+  - `fileUrl` (string, the GitHub / hosting link submitted by the student)
+  - `comments` (string, student comments)
+  - `status` (string: `'pending'`, `'approved'`, `'rejected'`, or `'changes_requested'`)
+  - `attemptNumber` (number, increments on revision/resubmission)
+  - `feedback` (string, evaluator feedback comments)
+  - `evaluatorId` (string, UID of the evaluator who reviewed the work)
+  - `createdAt` / `updatedAt` (Date)
+
+---
+
+### 8. Notifications
+* **Do you already have notifications?**
+  Yes:
+  - **In-app notifications**: Handled by the backend `NotificationService` storing to the `notifications` collection. The frontend notification drawer fetches and displays these.
+  - **Email notifications**: Integrated via EmailJS REST API (called backend-side and frontend-side) for transactions like batch enrollment, submission grading status, group request approvals, and general broadcasts.
+  - **Firebase Cloud Messaging**: No, FCM or push notifications are not configured in the codebase.
+
+---
+
+### 9. Existing Backend
+* **Approximately how large is it?**
+  The backend is a structured monolith compiled as a Cloudflare Worker:
+  - Main router/API entry: `src/index.js` (~5,200 lines of Hono routes).
+  - Business logic: Separated into a Service layer in `src/services/` (e.g. `enrollment.js`, `group.js`, `submission.js`, etc.).
+  - Database layer: Service methods interact directly with MongoDB via the official `mongodb` client driver.
+  - Schema validators: Zod schemas in `src/validators/` validate Hono request bodies/parameters.
+  - Middlewares: Found in `src/middleware/` (handling JWT auth, RBAC permissions, and staffing context).
+
+---
+
+### 10. REST or GraphQL?
+* **Protocol:**
+  REST. All backend APIs are RESTful JSON endpoints implemented using Hono.
+
+---
+
+### 11. API Versioning
+* **Do you have /api/v1 or /api/v2?**
+  Yes, both versioned prefixes are active:
+  - `/api/v1/...` routes generally handle legacy, direct, or simplified endpoints.
+  - `/api/v2/...` routes implement multi-tenant / organization-scoped endpoints (e.g. `/api/v2/organizations/:orgId/...`).

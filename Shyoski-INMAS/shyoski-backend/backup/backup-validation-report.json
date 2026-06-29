@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-06-19T18:44:54.982Z",
+  "success": true,
+  "collectionsChecked": 12,
+  "collections": {
+    "organizations": {
+      "exists": true,
+      "sampleCount": 3,
+      "restoredCount": 3,
+      "valid": true,
+      "error": null
+    },
+    "organization_memberships": {
+      "exists": true,
+      "sampleCount": 3,
+      "restoredCount": 3,
+      "valid": true,
+      "error": null
+    },
+    "batches": {
+      "exists": true,
+      "sampleCount": 2,
+      "restoredCount": 2,
+      "valid": true,
+      "error": null
+    },
+    "batch_enrollments": {
+      "exists": true,
+      "sampleCount": 0,
+      "restoredCount": 0,
+      "valid": true,
+      "error": null
+    },
+    "submissions": {
+      "exists": true,
+      "sampleCount": 1,
+      "restoredCount": 1,
+      "valid": true,
+      "error": null
+    },
+    "groups": {
+      "exists": true,
+      "sampleCount": 1,
+      "restoredCount": 1,
+      "valid": true,
+      "error": null
+    },
+    "payments": {
+      "exists": true,
+      "sampleCount": 0,
+      "restoredCount": 0,
+      "valid": true,
+      "error": null
+    },
+    "certificates": {
+      "exists": true,
+      "sampleCount": 0,
+      "restoredCount": 0,
+      "valid": true,
+      "error": null
+    },
+    "notifications": {
+      "exists": true,
+      "sampleCount": 3,
+      "restoredCount": 3,
+      "valid": true,
+      "error": null
+    },
+    "jobs": {
+      "exists": true,
+      "sampleCount": 0,
+      "restoredCount": 0,
+      "valid": true,
+      "error": null
+    },
+    "job_applications": {
+      "exists": true,
+      "sampleCount": 0,
+      "restoredCount": 0,
+      "valid": true,
+      "error": null
+    },
+    "audit_logs": {
+      "exists": true,
+      "sampleCount": 3,
+      "restoredCount": 3,
+      "valid": true,
+      "error": null
+    }
+  },
+  "error": null
+}

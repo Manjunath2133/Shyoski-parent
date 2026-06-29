@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "shyoski-backend",
+  "main": "src/index.js",
+  "compatibility_date": "2024-09-23",
+  
+  // ⚡ THIS IS THE CRITICAL FIX
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+
+  // Variables (Environment)
+  "vars": {
+    "ENVIRONMENT": "development",
+    "MONGODB_URI": "mongodb+srv://km:123@shyoski.nv2c0nw.mongodb.net/?appName=shyoski"
+  }
+  
+  // NOTE: If you see any "workflows" or "durable_objects" sections below, DELETE THEM.
+  // We are building a standard API, not a workflow.
+}

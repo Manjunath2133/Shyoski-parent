@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
-import { TalkWorld, AIWorld } from '../../components/3d/OrbitingWorlds'
+import { TalkWorld, AIWorld, InternshipsWorld } from '../../components/3d/OrbitingWorlds'
 
 export function EnterTransition() {
   const [visible, setVisible] = useState(false)
@@ -22,7 +22,8 @@ export function EnterTransition() {
           window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
           // Allow the routed page to mount, then focus its root if present
           setTimeout(() => {
-            const root = document.getElementById(path === '/ShyoskiAI' ? 'shyoskiai-root' : 'shyoskitalk-root')
+            const rootId = path === '/ShyoskiAI' ? 'shyoskiai-root' : path === '/ShyoskiINMAS' ? 'shyoskiinmas-root' : 'shyoskitalk-root'
+            const root = document.getElementById(rootId)
             if (root) {
               root.focus({ preventScroll: true } as any)
             }
@@ -42,8 +43,6 @@ export function EnterTransition() {
     return () => window.removeEventListener('shyoski:navigate', handler as EventListener)
   }, [visible])
 
-  const isAI = target === '/ShyoskiAI'
-
   return (
     <AnimatePresence>
       {visible && (
@@ -52,14 +51,18 @@ export function EnterTransition() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={`fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-b ${
-            isAI ? 'from-emerald-950/60 to-indigo-950/70' : 'from-cyan-900/60 to-indigo-900/70'
+            target === '/ShyoskiAI' ? 'from-emerald-950/60 to-indigo-950/70' :
+            target === '/ShyoskiINMAS' ? 'from-blue-950/60 to-indigo-950/70' :
+            'from-cyan-900/60 to-indigo-900/70'
           } backdrop-blur-md pointer-events-auto`}
         >
           <div className="absolute inset-0 opacity-40">
             <Canvas gl={{ alpha: true }} camera={{ position: [0, 0, 6], fov: 50 }}>
               <ambientLight intensity={0.6} />
               <directionalLight position={[5, 5, 5]} intensity={0.8} />
-              {isAI ? <AIWorld position={[0, 0, 0]} /> : <TalkWorld position={[0, 0, 0]} />}
+              {target === '/ShyoskiAI' ? <AIWorld position={[0, 0, 0]} /> :
+               target === '/ShyoskiINMAS' ? <InternshipsWorld position={[0, 0, 0]} /> :
+               <TalkWorld position={[0, 0, 0]} />}
             </Canvas>
           </div>
 
@@ -72,8 +75,10 @@ export function EnterTransition() {
             <img src="/logo.png" alt="Shyoski" className="w-28 h-auto mb-2" />
             <h2 className="text-2xl md:text-3xl font-extrabold text-white text-center">Entering the Ecosystem</h2>
             <p className="text-sm text-white/90 text-center max-w-lg">
-              {isAI
+              {target === '/ShyoskiAI'
                 ? 'Shyoski INTAI — initializing career intelligence matrices. Preparing secure display shielding layers...'
+                : target === '/ShyoskiINMAS'
+                ? 'Shyoski Internships — initializing futuristic campus environment. Preparing multi-tenant student directories and certification protocols...'
                 : 'ShyoskiTalk — initializing offline translation particles. Preparing a private, high-performance conversational bridge...'}
             </p>
 

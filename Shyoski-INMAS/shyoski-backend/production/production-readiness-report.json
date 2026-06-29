@@ -1,0 +1,29 @@
+{
+  "ready": true,
+  "checksPassed": 7,
+  "checksFailed": 0,
+  "details": {
+    "mongodbConnection": {
+      "status": "passed"
+    },
+    "mongodbIndexes": {
+      "status": "passed"
+    },
+    "healthEndpoints": {
+      "status": "passed"
+    },
+    "securityHeaders": {
+      "status": "passed"
+    },
+    "inputSanitization": {
+      "status": "passed"
+    },
+    "rateLimiting": {
+      "status": "passed"
+    },
+    "environmentConfig": {
+      "status": "passed"
+    }
+  },
+  "timestamp": "2026-06-19T18:45:52.582Z"
+}
